@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iskur_randevu/GecisSayfasi.dart';
-import 'package:iskur_randevu/GecisSayfasiTumKisiler.dart';
+import 'package:iskur_randevu/ToAppointmentsPage.dart';
+import 'package:iskur_randevu/ToAllAppointmentsPage.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'Sorgu.dart';
+import 'DatabaseAccess.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,27 +26,27 @@ class MyApp extends StatelessWidget {
         const Locale('tr'),
       ],
       locale: const Locale('tr'),
-      title: 'Flutter Demo',
+      title: 'İşkur Randevu',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GirisSayfasi(),
+      home: EntrancePage(),
     );
   }
 }
 
-class GirisSayfasi extends StatefulWidget {
+class EntrancePage extends StatefulWidget {
 
-  GirisSayfasi({
+  EntrancePage({
     Key key,
   }) : super(key: key);
   static List<CalendarResource> resources = <CalendarResource>[];
   @override
-  _GirisSayfasiState createState() => _GirisSayfasiState();
+  _EntrancePageState createState() => _EntrancePageState();
 }
 
-class _GirisSayfasiState extends State<GirisSayfasi> {
+class _EntrancePageState extends State<EntrancePage> {
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,7 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              GecisSayfasiTumKisiler(GirisSayfasi.resources)));
+                              ToAllAppointmentsPage(EntrancePage.resources)));
                 },
                 child: Padding(
                   padding:  EdgeInsets.only(top: yukseklik*0.05,left: genislik*0.15, right: genislik*0.15),
@@ -111,7 +110,7 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => GecisSayfasi(
+                                              builder: (context) => ToAppointmentsPage(
                                                   snapshot
                                                       .data[index].displayName)));
                                     },
@@ -143,7 +142,7 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
   }
 
   Future <List<CalendarResource>>  getName() async {
-    Sorgu sorgu = Sorgu();
-    return GirisSayfasi.resources = await sorgu.kisleriGetir();
+    DatabaseAccess sorgu = DatabaseAccess();
+    return EntrancePage.resources = await sorgu.getPersons();
   }
 }

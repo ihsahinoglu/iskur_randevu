@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:iskur_randevu/GecisSayfasi.dart';
+import 'package:iskur_randevu/ToAppointmentsPage.dart';
 
-class Ekle extends StatefulWidget {
+class AppointmentAddingPage extends StatefulWidget {
   String displayName;
   String subject;
   DateTime startTime;
   DateTime endTime;
-  Ekle(this.displayName);
-  Ekle.edit(this.displayName,this.subject,this.startTime,this.endTime);
+  AppointmentAddingPage(this.displayName);
+  AppointmentAddingPage.edit(this.displayName,this.subject,this.startTime,this.endTime);
   @override
-  _EkleState createState() => _EkleState();
+  _AppointmentAddingPageState createState() => _AppointmentAddingPageState();
 }
 
-class _EkleState extends State<Ekle> {
+class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
   final formKey = GlobalKey<FormState>();
   var tfsubject = TextEditingController();
   var tfDate = TextEditingController();
@@ -27,7 +27,7 @@ class _EkleState extends State<Ekle> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (contex) => GecisSayfasi(widget.displayName)));
+            builder: (contex) => ToAppointmentsPage(widget.displayName)));
   }
 @override
   void initState() {

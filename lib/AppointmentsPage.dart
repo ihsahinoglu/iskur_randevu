@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:iskur_randevu/Ekle.dart';
-import 'package:iskur_randevu/GecisSayfasi.dart';
+import 'package:iskur_randevu/AppointmentAddingPage.dart';
+import 'package:iskur_randevu/ToAppointmentsPage.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class AnaSayfa extends StatefulWidget {
+class AppointmentsPage extends StatefulWidget {
   String displayName;
   List<Appointment> appointments = <Appointment>[];
 
-  AnaSayfa(this.displayName, this.appointments);
+  AppointmentsPage(this.displayName, this.appointments);
 
   @override
-  _AnaSayfaState createState() => _AnaSayfaState();
+  _AppointmentsPageState createState() => _AppointmentsPageState();
 }
 
-class _AnaSayfaState extends State<AnaSayfa> {
+class _AppointmentsPageState extends State<AppointmentsPage> {
   DateTime selectedDate = DateTime.now();
   bool listele = true;
   DateTime date;
@@ -90,7 +90,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => Ekle(widget.displayName)));
+                  builder: (context) => AppointmentAddingPage(widget.displayName)));
         },
         label: Text("Yeni Randevu"),
         tooltip: 'Kaydet',
@@ -131,7 +131,7 @@ class _AnaSayfaState extends State<AnaSayfa> {
               TextButton(onPressed: () async {
                 Navigator.pushReplacement(
                     context, MaterialPageRoute(builder: (context) =>
-                    Ekle.edit(widget.displayName,
+                    AppointmentAddingPage.edit(widget.displayName,
                         _selectedAppointment.subject,
                         _selectedAppointment.startTime,
                         _selectedAppointment.endTime)));
@@ -144,33 +144,13 @@ class _AnaSayfaState extends State<AnaSayfa> {
                 await collectionReference.doc(_selectedAppointment.notes)
                     .delete();
                 Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => GecisSayfasi(widget.displayName)));
+                    builder: (context) => ToAppointmentsPage(widget.displayName)));
               }, child: Text("Sil")),
             ],
           ));
     }
   }
 
-  // showAppointmentList() {
-  //   return ListView.builder(
-  //      // physics: NeverScrollableScrollPhysics(),
-  //      // scrollDirection: Axis.vertical,
-  //      // shrinkWrap: true,
-  //      // primary: false,
-  //       itemCount: widget.appointments.length,
-  //       itemBuilder: (context, index) {
-  //         Appointment appointment = widget.appointments[index];
-  //         return Card(
-  //             child: ListTile(
-  //               leading: Icon(Icons.account_circle_outlined),
-  //               title: Text(appointment.subject),
-  //               subtitle: Text("${appointment.startTime}-${appointment.endTime}"),
-  //               trailing: IconButton(
-  //                 icon: Icon(Icons.edit),
-  //           ),
-  //         ));
-  //       });
-  // }
 }
 
 class _AppointmentDataSource extends CalendarDataSource {

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:iskur_randevu/TumRandevular.dart';
+import 'package:iskur_randevu/AllAppointmentsPage.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'Sorgu.dart';
+import 'DatabaseAccess.dart';
 
-class GecisSayfasiTumKisiler extends StatefulWidget {
+class ToAllAppointmentsPage extends StatefulWidget {
   List<CalendarResource> resources = <CalendarResource>[];
 
-  GecisSayfasiTumKisiler(this.resources);
+  ToAllAppointmentsPage(this.resources);
 
   @override
-  _GecisSayfasiTumKisilerState createState() => _GecisSayfasiTumKisilerState();
+  _ToAllAppointmentsPageState createState() => _ToAllAppointmentsPageState();
 }
 
-class _GecisSayfasiTumKisilerState extends State<GecisSayfasiTumKisiler> {
+class _ToAllAppointmentsPageState extends State<ToAllAppointmentsPage> {
 
   void initState() {
     super.initState();
@@ -23,9 +23,9 @@ class _GecisSayfasiTumKisilerState extends State<GecisSayfasiTumKisiler> {
 
     List<Appointment> appointments = <Appointment>[];
 
-    Sorgu sorgu = Sorgu();
-    appointments = await sorgu.tumBilgileriGetir();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => TumRandevular(appointments,widget.resources)));
+    DatabaseAccess sorgu = DatabaseAccess();
+    appointments = await sorgu.getAllData();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AllAppointmentsPage(appointments,widget.resources)));
   }
 
   @override

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import 'Sorgu.dart';
-
-class TumRandevular extends StatefulWidget {
+class AllAppointmentsPage extends StatefulWidget {
   List<Appointment> appointments = <Appointment>[];
   List<CalendarResource> resources = <CalendarResource>[];
-  TumRandevular(this.appointments,this.resources);
+  AllAppointmentsPage(this.appointments,this.resources);
 
   @override
-  _TumRandevularState createState() => _TumRandevularState();
+  _AllAppointmentsPageState createState() => _AllAppointmentsPageState();
 }
 
-class _TumRandevularState extends State<TumRandevular> {
+class _AllAppointmentsPageState extends State<AllAppointmentsPage> {
 
   DataSource _getCalendarDataSource() {
     return DataSource(widget.appointments, widget.resources);

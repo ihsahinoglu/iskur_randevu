@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'AnaSayfa.dart';
-import 'Sorgu.dart';
+import 'AppointmentsPage.dart';
+import 'DatabaseAccess.dart';
 
-class GecisSayfasi extends StatefulWidget {
+class ToAppointmentsPage extends StatefulWidget {
   String displayName;
-  GecisSayfasi(this.displayName);
+  ToAppointmentsPage(this.displayName);
 
   @override
-  _GecisSayfasiState createState() => _GecisSayfasiState();
+  _ToAppointmentsPageState createState() => _ToAppointmentsPageState();
 }
 
-class _GecisSayfasiState extends State<GecisSayfasi> {
+class _ToAppointmentsPageState extends State<ToAppointmentsPage> {
 
   void initState() {
     super.initState();
@@ -21,10 +21,10 @@ class _GecisSayfasiState extends State<GecisSayfasi> {
 
   Future asyncMethod() async {
     List<Appointment> appointments = <Appointment>[];
-    Sorgu sorgu = Sorgu();
-    appointments = await sorgu.bilgileriGetir(widget.displayName);
+    DatabaseAccess sorgu = DatabaseAccess();
+    appointments = await sorgu.getData(widget.displayName);
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AnaSayfa(widget.displayName,appointments)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AppointmentsPage(widget.displayName,appointments)));
   }
 
   @override
