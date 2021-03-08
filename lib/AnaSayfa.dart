@@ -101,10 +101,10 @@ class _AnaSayfaState extends State<AnaSayfa> {
 
   void onCalendarTapped(CalendarTapDetails calendarTapDetails) {
 
-    if (calendarTapDetails.targetElement != CalendarElement.calendarCell &&
-        calendarTapDetails.targetElement != CalendarElement.appointment) {
-      return;
-    }
+    // if (calendarTapDetails.targetElement != CalendarElement.calendarCell &&
+    //     calendarTapDetails.targetElement != CalendarElement.appointment) {
+    //   return;
+    // }
 
     _selectedAppointment = null;
     _subject = '';
@@ -151,26 +151,26 @@ class _AnaSayfaState extends State<AnaSayfa> {
     }
   }
 
-  showAppointmentList() {
-    return ListView.builder(
-       // physics: NeverScrollableScrollPhysics(),
-       // scrollDirection: Axis.vertical,
-       // shrinkWrap: true,
-       // primary: false,
-        itemCount: widget.appointments.length,
-        itemBuilder: (context, index) {
-          Appointment appointment = widget.appointments[index];
-          return Card(
-              child: ListTile(
-                leading: Icon(Icons.account_circle_outlined),
-                title: Text(appointment.subject),
-                subtitle: Text("${appointment.startTime}-${appointment.endTime}"),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit),
-            ),
-          ));
-        });
-  }
+  // showAppointmentList() {
+  //   return ListView.builder(
+  //      // physics: NeverScrollableScrollPhysics(),
+  //      // scrollDirection: Axis.vertical,
+  //      // shrinkWrap: true,
+  //      // primary: false,
+  //       itemCount: widget.appointments.length,
+  //       itemBuilder: (context, index) {
+  //         Appointment appointment = widget.appointments[index];
+  //         return Card(
+  //             child: ListTile(
+  //               leading: Icon(Icons.account_circle_outlined),
+  //               title: Text(appointment.subject),
+  //               subtitle: Text("${appointment.startTime}-${appointment.endTime}"),
+  //               trailing: IconButton(
+  //                 icon: Icon(Icons.edit),
+  //           ),
+  //         ));
+  //       });
+  // }
 }
 
 class _AppointmentDataSource extends CalendarDataSource {

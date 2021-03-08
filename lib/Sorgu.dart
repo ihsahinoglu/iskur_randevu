@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:iskur_randevu/main.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Sorgu {
-  static Map<String,String> staff = {"İbrahim":"0001","Raşit":"0002","Pakize":"0003","Özlem":"0004","Fatma":"0005","Raziye":"0006","Seray":"0007"};
 
     Future <List<Appointment>> bilgileriGetir(String displayName) async {
       List<Appointment> appointments = <Appointment>[];
@@ -12,16 +13,17 @@ class Sorgu {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       CollectionReference collectionReference = firestore.collection('randevular');
       QuerySnapshot querySnapshot = await collectionReference.get();
-      var id=staff[displayName];
+
       querySnapshot.docs.forEach((QueryDocumentSnapshot queryDocumentSnapshot) {
         if (queryDocumentSnapshot.data()["displayName"] == displayName ) {
           String appointmentId= queryDocumentSnapshot.id;
-          print(appointmentId);
           DateTime startTime = DateTime.fromMillisecondsSinceEpoch(queryDocumentSnapshot.data()["startTime"].millisecondsSinceEpoch).add(const Duration(hours: 3));
           DateTime endTime = DateTime.fromMillisecondsSinceEpoch(queryDocumentSnapshot.data()["endTime"].millisecondsSinceEpoch).add(const Duration(hours: 3));
           String subject = queryDocumentSnapshot.data()["subject"];
+          var i=GirisSayfasi.resources.indexWhere((element) => element.displayName==displayName);
+          var id=GirisSayfasi.resources[i].id;
           Appointment appointment= Appointment(startTime: startTime, endTime: endTime, isAllDay: false, subject: subject, color: randomColor(),
-            resourceIds: ['$id'],notes: appointmentId);
+            resourceIds: ["$id"],notes: appointmentId);
           appointments.add(appointment);
         }
       }
@@ -38,14 +40,15 @@ class Sorgu {
       querySnapshot.docs.forEach((QueryDocumentSnapshot queryDocumentSnapshot) {
 
         String displayName=queryDocumentSnapshot.data()["displayName"];
-        var id=staff[displayName];
+        var i=GirisSayfasi.resources.indexWhere((element) => element.displayName==displayName);
+        var id=GirisSayfasi.resources[i].id;
         DateTime startTime = DateTime.fromMillisecondsSinceEpoch(queryDocumentSnapshot.data()["startTime"].millisecondsSinceEpoch).add(const Duration(hours: 3));
         DateTime endTime = DateTime.fromMillisecondsSinceEpoch(queryDocumentSnapshot.data()["endTime"].millisecondsSinceEpoch).add(const Duration(hours: 3));
         String subject = queryDocumentSnapshot.data()["subject"];
         Appointment appointment= Appointment(startTime: startTime, endTime: endTime, isAllDay: false, subject: subject,
-            color:randomColor(),resourceIds: ["$id"]);
+            color:randomColor() , resourceIds: ["$id"]);
         appointments.add(appointment);
-
+           //resources[int.parse(id)].color
       }
 
       );
@@ -69,6 +72,23 @@ class Sorgu {
       _colorCollection.add(const Color(0xFF3F51B5));
 
       return _colorCollection[random.nextInt(11)];
+    }
+
+    Future <List<CalendarResource>> kisleriGetir() async{
+      List<CalendarResource> resources = <CalendarResource>[];
+
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('kisiler').orderBy("id",descending: false).get();
+
+      querySnapshot.docs.forEach((QueryDocumentSnapshot queryDocumentSnapshot) {
+
+        String displayName=queryDocumentSnapshot.data()["displayName"];
+        String id=queryDocumentSnapshot.data()["id"];
+        int color= int.parse(queryDocumentSnapshot.data()["color"]);
+        CalendarResource resource = CalendarResource(displayName: displayName, id:id, color:Color(color));
+        resources.add(resource);
+      }
+      );
+      return resources;
     }
 
 }

@@ -5,7 +5,8 @@ import 'package:iskur_randevu/GecisSayfasi.dart';
 import 'package:iskur_randevu/GecisSayfasiTumKisiler.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'Sorgu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,6 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         SfGlobalLocalizations.delegate
-
       ],
       supportedLocales: [
         const Locale('tr'),
@@ -39,8 +39,10 @@ class MyApp extends StatelessWidget {
 
 class GirisSayfasi extends StatefulWidget {
 
-  GirisSayfasi({ Key key,}) : super(key: key);
-
+  GirisSayfasi({
+    Key key,
+  }) : super(key: key);
+  static List<CalendarResource> resources = <CalendarResource>[];
   @override
   _GirisSayfasiState createState() => _GirisSayfasiState();
 }
@@ -54,146 +56,94 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
     final genislik = ekranBoyutu.size.width;
     return Scaffold(
         appBar: AppBar(
-          title: Text("İŞKUR RANDEVU SİSTEMİ",)
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(left: genislik*0.2, right: genislik*0.2, top:yukseklik*0.05, bottom: yukseklik*0.05 ),
-          child: GridView.count(
-            primary: false,
-            padding: const EdgeInsets.all(20),
-            crossAxisSpacing: genislik*0.1,
-            mainAxisSpacing: yukseklik*0.08,
-            crossAxisCount: 2,
-            children: <Widget>[
+            title: Text(
+          "İŞKUR RANDEVU SİSTEMİ",
+        )),
+        body: SingleChildScrollView(
+          child: Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasiTumKisiler()));
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              GecisSayfasiTumKisiler(GirisSayfasi.resources)));
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.blue[50],
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Tüm"),
-                      Text("Randevular"),
-                    ],
-                  ),
-                  alignment: Alignment.center
-
+                child: Padding(
+                  padding:  EdgeInsets.only(top: yukseklik*0.05,left: genislik*0.15, right: genislik*0.15),
+                  child: Container(
+                    height: yukseklik*0.05,
+                       decoration: BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Tüm Randevular"),
+                        ],
+                      ),
+                      alignment: Alignment.center),
                 ),
               ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasi("İbrahim")));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[100],
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Text("İbrahim"),
-                  alignment: Alignment.bottomCenter,
-
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasi("Raşit")));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[200],
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Text("Raşit"),
-                  alignment: Alignment.bottomCenter,
-
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasi("Pakize")));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[300],
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Text("Pakize"),
-                  alignment: Alignment.bottomCenter,
-
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasi("Seray")));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[400],
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Text("Seray"),
-                  alignment: Alignment.bottomCenter,
-
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasi("Özlem")));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[500],
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Text("Özlem"),
-                  alignment: Alignment.bottomCenter,
-
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasi("Raziye")));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[600],
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Text("Raziye"),
-                  alignment: Alignment.bottomCenter,
-
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=> GecisSayfasi("Fatma")));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: Colors.blue[700],
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Text("Fatma"),
-                  alignment: Alignment.bottomCenter,
-
-                ),
-              ),
-            ],
+                   Padding(
+                    padding: EdgeInsets.only(left:10.0, right: 10.0),
+                    child: FutureBuilder <List<CalendarResource>> (
+                      future: getName(),
+                      builder: (context, AsyncSnapshot<List<CalendarResource>> snapshot) {
+                        if (snapshot.hasData) {
+                         return  Padding(
+                           padding: EdgeInsets.all(yukseklik*0.07),
+                           child: GridView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        childAspectRatio: 1.25 / 1,
+                                        crossAxisSpacing: 40,
+                                        mainAxisSpacing: 40),
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => GecisSayfasi(
+                                                  snapshot
+                                                      .data[index].displayName)));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: Colors.blue[index*100+100],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child:
+                                          Text(snapshot.data[index].displayName),
+                                      alignment: Alignment.bottomCenter,
+                                    ),
+                                  );
+                                }),
+                         );
+                        }
+                        else {
+                         return CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                          );
+                      }
+                      }
+                      )
+              )
+            ]),
           ),
         ));
   }
 
+  Future <List<CalendarResource>>  getName() async {
+    Sorgu sorgu = Sorgu();
+    return GirisSayfasi.resources = await sorgu.kisleriGetir();
+  }
 }

@@ -4,6 +4,9 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'Sorgu.dart';
 
 class GecisSayfasiTumKisiler extends StatefulWidget {
+  List<CalendarResource> resources = <CalendarResource>[];
+
+  GecisSayfasiTumKisiler(this.resources);
 
   @override
   _GecisSayfasiTumKisilerState createState() => _GecisSayfasiTumKisilerState();
@@ -19,18 +22,10 @@ class _GecisSayfasiTumKisilerState extends State<GecisSayfasiTumKisiler> {
   Future asyncMethod() async {
 
     List<Appointment> appointments = <Appointment>[];
-    List<CalendarResource> resources = <CalendarResource>[];
-    Sorgu sorgu = Sorgu();
-    resources.add(CalendarResource(displayName: 'İbrahim', id: '0001', color: sorgu.randomColor()));
-    resources.add(CalendarResource(displayName: 'Raşit', id: '0002', color: sorgu.randomColor()));
-    resources.add(CalendarResource(displayName: 'Pakize', id: '0003', color: sorgu.randomColor()));
-    resources.add(CalendarResource(displayName: 'Özlem', id: '0004', color: sorgu.randomColor()));
-    resources.add(CalendarResource(displayName: 'Fatma', id: '0005', color: sorgu.randomColor()));
-    resources.add(CalendarResource(displayName: 'Raziye', id: '0006', color: sorgu.randomColor()));
-    resources.add(CalendarResource(displayName: 'Seray', id: '0007', color: sorgu.randomColor()));
 
+    Sorgu sorgu = Sorgu();
     appointments = await sorgu.tumBilgileriGetir();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => TumRandevular(appointments,resources)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => TumRandevular(appointments,widget.resources)));
   }
 
   @override
