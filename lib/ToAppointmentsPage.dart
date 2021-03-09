@@ -21,8 +21,8 @@ class _ToAppointmentsPageState extends State<ToAppointmentsPage> {
 
   Future asyncMethod() async {
     List<Appointment> appointments = <Appointment>[];
-    DatabaseAccess sorgu = DatabaseAccess();
-    appointments = await sorgu.getData(widget.displayName);
+    DatabaseAccess databaseAccess = DatabaseAccess();
+    appointments = await databaseAccess.getData(widget.displayName);
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AppointmentsPage(widget.displayName,appointments)));
   }

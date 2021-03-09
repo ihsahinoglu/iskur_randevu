@@ -46,6 +46,8 @@ class _AllAppointmentsPageState extends State<AllAppointmentsPage> {
           timeSlotViewSettings: TimeSlotViewSettings(startHour: 9,endHour: 17,nonWorkingDays: <int>[ DateTime.saturday,DateTime.sunday],
               dateFormat: 'd', dayFormat: 'EEE',timeFormat: 'HH:mm',timeInterval: Duration(minutes: 60)),
 
+
+
           ),
 
     );

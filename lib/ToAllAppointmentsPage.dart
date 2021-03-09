@@ -23,8 +23,8 @@ class _ToAllAppointmentsPageState extends State<ToAllAppointmentsPage> {
 
     List<Appointment> appointments = <Appointment>[];
 
-    DatabaseAccess sorgu = DatabaseAccess();
-    appointments = await sorgu.getAllData();
+    DatabaseAccess databaseAccess = DatabaseAccess();
+    appointments = await databaseAccess.getAllData();
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AllAppointmentsPage(appointments,widget.resources)));
   }
 

@@ -17,7 +17,6 @@ class AppointmentsPage extends StatefulWidget {
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
   DateTime selectedDate = DateTime.now();
-  bool listele = true;
   DateTime date;
   List<dynamic> appointment;
   CalendarElement element;
@@ -27,7 +26,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
   TimeOfDay  _startTime;
   TimeOfDay  _endTime;
   String _subject = '';
-  _AppointmentDataSource _getCalendarDataSource() {
+ _AppointmentDataSource _getCalendarDataSource() {
     return _AppointmentDataSource(widget.appointments);
   }
   @override
@@ -49,40 +48,11 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
           children: [
             SizedBox( height: yukseklik*0.01,),
             Container(
-                    height: yukseklik*0.85,
-                    child: SfCalendar(
-                      view: CalendarView.workWeek,
-                      allowedViews: <CalendarView>[
-                        CalendarView.day,
-                        CalendarView.week,
-                        CalendarView.workWeek,
-                        CalendarView.month,
-                        CalendarView.schedule
-                      ],
-                      timeSlotViewSettings: TimeSlotViewSettings(
-                          startHour: 9,
-                          endHour: 17,
-                          nonWorkingDays: <int>[
-                            DateTime.saturday,
-                            DateTime.sunday
-                          ],
-                          dateFormat: 'd',
-                          dayFormat: 'EEE',
-                          timeFormat: 'HH:mm'),
-                      dataSource: _getCalendarDataSource(),
-                      firstDayOfWeek: 1,
-                      appointmentTimeTextFormat: 'HH:mm',
-                      monthViewSettings: MonthViewSettings(
-                          showAgenda: true, dayFormat: 'EEE'),
-                      onTap: onCalendarTapped,
-                      scheduleViewSettings:
-                          ScheduleViewSettings(appointmentItemHeight: 70),
-                      todayHighlightColor: Colors.red,
-                      showNavigationArrow: true,
-                    )
+                height: yukseklik*0.85,
+                child: getCalendar()
             ),
           ],
-        ),
+        )
       ),
 
       floatingActionButton: FloatingActionButton.extended(
@@ -92,7 +62,10 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
               MaterialPageRoute(
                   builder: (context) => AppointmentAddingPage(widget.displayName)));
         },
-        label: Text("Yeni Randevu"),
+        label: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("Yeni Randevu", style: TextStyle(fontSize: 16)),
+        ),
         tooltip: 'Kaydet',
         icon: Icon(Icons.save),
       ),
@@ -151,6 +124,38 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     }
   }
 
+  Widget getCalendar() {
+    return SfCalendar(
+      view: CalendarView.workWeek,
+      allowedViews: <CalendarView>[
+        CalendarView.day,
+        CalendarView.week,
+        CalendarView.workWeek,
+        CalendarView.month,
+        CalendarView.schedule
+      ],
+      timeSlotViewSettings: TimeSlotViewSettings(
+          startHour: 9,
+          endHour: 17,
+          nonWorkingDays: <int>[
+            DateTime.saturday,
+            DateTime.sunday
+          ],
+          dateFormat: 'd',
+          dayFormat: 'EEE',
+          timeFormat: 'HH:mm'),
+      dataSource: _getCalendarDataSource(),
+      firstDayOfWeek: 1,
+      appointmentTimeTextFormat: 'HH:mm',
+      monthViewSettings: MonthViewSettings(
+          showAgenda: true, dayFormat: 'EEE'),
+      onTap: onCalendarTapped,
+      scheduleViewSettings:
+      ScheduleViewSettings(appointmentItemHeight: 70),
+      todayHighlightColor: Colors.red,
+      showNavigationArrow: true,
+    );
+ }
 }
 
 class _AppointmentDataSource extends CalendarDataSource {

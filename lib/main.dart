@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iskur_randevu/ToAppointmentsPage.dart';
 import 'package:iskur_randevu/ToAllAppointmentsPage.dart';
@@ -55,24 +56,25 @@ class _EntrancePageState extends State<EntrancePage> {
     final genislik = ekranBoyutu.size.width;
     return Scaffold(
         appBar: AppBar(
-            title: Text(
-          "İŞKUR RANDEVU SİSTEMİ",
-        )),
+            title: Align(
+               alignment: Alignment.center,
+              child: Text("İŞKUR RANDEVU SİSTEMİ"),
+            )),
         body: SingleChildScrollView(
           child: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              GestureDetector(
-                onTap: () {
+                  GestureDetector(
+                   onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
                               ToAllAppointmentsPage(EntrancePage.resources)));
                 },
-                child: Padding(
-                  padding:  EdgeInsets.only(top: yukseklik*0.05,left: genislik*0.15, right: genislik*0.15),
-                  child: Container(
+                    child: Padding(
+                    padding:  EdgeInsets.only(top: yukseklik*0.05,left: genislik*0.15, right: genislik*0.15),
+                    child: Container(
                     height: yukseklik*0.05,
                        decoration: BoxDecoration(
                           color: Colors.orangeAccent,
@@ -129,9 +131,16 @@ class _EntrancePageState extends State<EntrancePage> {
                          );
                         }
                         else {
-                         return CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                          );
+                         return Center(
+                           child: Column(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             children: [
+                               CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                ),
+                             ],
+                           ),
+                         );
                       }
                       }
                       )
@@ -142,7 +151,7 @@ class _EntrancePageState extends State<EntrancePage> {
   }
 
   Future <List<CalendarResource>>  getName() async {
-    DatabaseAccess sorgu = DatabaseAccess();
-    return EntrancePage.resources = await sorgu.getPersons();
+    DatabaseAccess databaseAccess = DatabaseAccess();
+    return EntrancePage.resources = await databaseAccess.getPersons();
   }
 }
