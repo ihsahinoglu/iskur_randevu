@@ -8,8 +8,14 @@ class AppointmentAddingPage extends StatefulWidget {
   String subject;
   DateTime startTime;
   DateTime endTime;
+  String notes;
+  DateTime date;
+  bool isEdit= false;
   AppointmentAddingPage(this.displayName);
-  AppointmentAddingPage.edit(this.displayName,this.subject,this.startTime,this.endTime);
+  AppointmentAddingPage.edit(this.displayName,this.subject,this.startTime,this.endTime,this.notes){
+    isEdit=true;
+   
+  }
   @override
   _AppointmentAddingPageState createState() => _AppointmentAddingPageState();
 }
@@ -20,21 +26,22 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
   var tfDate = TextEditingController();
   var tfStartTime = TextEditingController();
   var tfEndTime = TextEditingController();
-  DateTime date;
-  // DateTime startTime;
-  // DateTime endTime;
   Future goBack() async {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (contex) => ToAppointmentsPage(widget.displayName)));
+        builder: (contex) => ToAppointmentsPage(widget.displayName)));
   }
 @override
   void initState() {
-    if(widget.subject!=null){tfsubject.text= widget.subject;}
-    if(widget.startTime!=null){tfDate.text =new DateFormat("dd.MM.yyyy").format(widget.startTime);}
-    if(widget.startTime!=null){tfStartTime.text = new DateFormat.Hm().format(widget.startTime);}
-    if(widget.endTime!=null){tfEndTime.text = new DateFormat.Hm().format(widget.endTime);}
+     
+    if (widget.isEdit==true) {
+      tfsubject.text= widget.subject;
+      widget.date= DateTime(widget.startTime.year,widget.startTime.month,widget.startTime.day);
+      tfDate.text =new DateFormat("dd.MM.yyyy").format(widget.startTime);
+      tfStartTime.text = new DateFormat.Hm().format(widget.startTime);
+      tfEndTime.text = new DateFormat.Hm().format(widget.endTime);
+    }
     super.initState();
   }
   @override
@@ -97,6 +104,7 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                       ),
                       onTap: () async {
                         await showDatePicker(
+                          
                           context: context,
                           locale: const Locale("tr"),
                           initialDate: DateTime.now(),
@@ -105,7 +113,7 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                         ).then((selectedDate) {
                           if (selectedDate != null)
                             setState(() {
-                              date = selectedDate;
+                              widget.date = selectedDate;
                               tfDate.text =
                                   new DateFormat("dd.MM.yyyy").format(selectedDate);
                             });
@@ -140,9 +148,9 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                             .then((selectedStartTime) {
                           setState(() {
                             widget.startTime = DateTime(
-                                date.year,
-                                date.month,
-                                date.day,
+                                widget.date.year,
+                                widget.date.month,
+                                widget.date.day,
                                 selectedStartTime.hour,
                                 selectedStartTime.minute);
                             tfStartTime.text =
@@ -181,7 +189,7 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                                     : TimeOfDay(hour: 13, minute: 00))
                             .then((selectedEndTime) {
                           setState(() {
-                            widget.endTime = DateTime(date.year, date.month, date.day,
+                            widget.endTime = DateTime(widget.date.year, widget.date.month, widget.date.day,
                                 selectedEndTime.hour, selectedEndTime.minute);
                             tfEndTime.text = DateFormat.Hm().format(widget.endTime);
                           });
@@ -197,6 +205,12 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                         ),
                         onPressed: () async {
                           if (formKey.currentState.validate()) {
+                            if (widget.isEdit){
+                              FirebaseFirestore firestore = FirebaseFirestore.instance;
+                              CollectionReference collectionReference = firestore.collection(
+                                  'randevular');
+                              await collectionReference.doc(widget.notes).delete();
+                            }
                             var appointments = Map<String, dynamic>();
                             appointments["displayName"] = widget.displayName;
                             appointments["startTime"] =
@@ -207,8 +221,9 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                             FirebaseFirestore firestore =
                                 FirebaseFirestore.instance;
                             CollectionReference collectionReference =
-                                firestore.collection('randevular');
+                            firestore.collection('randevular');
                             await collectionReference.add(appointments);
+
                             goBack();
                           }
                         },

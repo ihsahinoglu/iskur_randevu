@@ -30,7 +30,7 @@ class _AllAppointmentsPageState extends State<AllAppointmentsPage> {
           ),
         ),
         body: SfCalendar(
-          view: CalendarView.timelineDay,
+          view: CalendarView.timelineWorkWeek,
           allowedViews: <CalendarView>[
             CalendarView.timelineDay,
             CalendarView.timelineWeek,

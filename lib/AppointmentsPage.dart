@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:iskur_randevu/AppointmentAddingPage.dart';
 import 'package:iskur_randevu/ToAppointmentsPage.dart';
+import 'package:iskur_randevu/main.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AppointmentsPage extends StatefulWidget {
@@ -29,6 +30,12 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
  _AppointmentDataSource _getCalendarDataSource() {
     return _AppointmentDataSource(widget.appointments);
   }
+  Future goBack() async {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+        builder: (contex) => EntrancePage()));
+  }
   @override
   Widget build(BuildContext context) {
     var ekranBoyutu = MediaQuery.of(context);
@@ -39,20 +46,32 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("İŞKUR RANDEVU SİSTEMİ"),
-            Text("Hoşgeldin ${widget.displayName}")
+            Text("Hoşgeldin ${widget.displayName}"),
           ],
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox( height: yukseklik*0.01,),
-            Container(
-                height: yukseklik*0.85,
-                child: getCalendar()
-            ),
-          ],
-        )
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            goBack();
+          },
+        ),
+        ),
+      
+      body: WillPopScope(
+        onWillPop: () {
+           goBack();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox( height: yukseklik*0.01,),
+              Container(
+                  height: yukseklik*0.85,
+                  child: getCalendar()
+              ),
+            ],
+          )
+        ),
       ),
 
       floatingActionButton: FloatingActionButton.extended(
@@ -79,8 +98,8 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     //   return;
     // }
 
-    _selectedAppointment = null;
-    _subject = '';
+    //_selectedAppointment = null;
+   // _subject = '';
     if (calendarTapDetails.appointments != null &&
         calendarTapDetails.appointments.length == 1) {
       final Appointment appointmentDetails = calendarTapDetails.appointments[0];
@@ -88,11 +107,11 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
       _endDate = appointmentDetails.endTime;
       _subject = appointmentDetails.subject;
       _selectedAppointment = appointmentDetails;
-    } else {
-      final DateTime date = calendarTapDetails.date;
-      _startDate = date;
-      _endDate = date.add(const Duration(hours: 1));
-    }
+    } //else {
+      //final DateTime date = calendarTapDetails.date;
+      //_startDate = date;
+     // _endDate = date.add(const Duration(hours: 1));
+   // }
     _startTime = TimeOfDay(hour: _startDate.hour, minute: _startDate.minute);
     _endTime = TimeOfDay(hour: _endDate.hour, minute: _endDate.minute);
     if(_selectedAppointment!=null) {
@@ -107,18 +126,20 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                     AppointmentAddingPage.edit(widget.displayName,
                         _selectedAppointment.subject,
                         _selectedAppointment.startTime,
-                        _selectedAppointment.endTime)));
+                        _selectedAppointment.endTime,_selectedAppointment.notes)));
               },
                   child: Text("Düzenle")),
+
+
               TextButton(onPressed: () async {
                 FirebaseFirestore firestore = FirebaseFirestore.instance;
                 CollectionReference collectionReference = firestore.collection(
                     'randevular');
-                await collectionReference.doc(_selectedAppointment.notes)
-                    .delete();
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => ToAppointmentsPage(widget.displayName)));
-              }, child: Text("Sil")),
+                await collectionReference.doc(_selectedAppointment.notes).delete();
+                 Navigator.pushReplacement(context,MaterialPageRoute(
+                  builder: (contex) => ToAppointmentsPage(widget.displayName)));
+                },
+                  child: Text("Sil")),
             ],
           ));
     }

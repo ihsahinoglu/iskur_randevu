@@ -89,6 +89,8 @@ class DatabaseAccess {
       return resources;
     }
 
+
+
 }
 
 
@@ -99,11 +101,4 @@ class DataSource extends CalendarDataSource {
   }
 
 
-}
-DataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-  List<CalendarResource> resources = <CalendarResource>[];
-
-
-  return DataSource(appointments, resources);
 }
