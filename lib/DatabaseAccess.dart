@@ -82,14 +82,18 @@ class DatabaseAccess {
         String displayName=queryDocumentSnapshot.data()["displayName"];
         String id=queryDocumentSnapshot.data()["id"];
         int color= int.parse(queryDocumentSnapshot.data()["color"]);
-        CalendarResource resource = CalendarResource(displayName: displayName, id:id, color:Color(color) );
+        CalendarResource resource = CalendarResource(displayName: displayName, id:id, color:Color(color));
         resources.add(resource);
       }
       );
       return resources;
     }
 
-
+    // Future<ImageProvider<ExactAssetImage>> getImages(String displayName) async{
+    //   firebase_storage.Reference ref = await firebase_storage.FirebaseStorage.instance.ref('images/$displayName');
+    //   return ExactAssetImage(ref);
+    //
+    // }
 
 }
 

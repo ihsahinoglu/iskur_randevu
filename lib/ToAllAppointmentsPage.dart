@@ -3,6 +3,7 @@ import 'package:iskur_randevu/AllAppointmentsPage.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'DatabaseAccess.dart';
 
+
 class ToAllAppointmentsPage extends StatefulWidget {
   List<CalendarResource> resources = <CalendarResource>[];
 
@@ -20,9 +21,7 @@ class _ToAllAppointmentsPageState extends State<ToAllAppointmentsPage> {
   }
 
   Future asyncMethod() async {
-
     List<Appointment> appointments = <Appointment>[];
-
     DatabaseAccess databaseAccess = DatabaseAccess();
     appointments = await databaseAccess.getAllData();
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AllAppointmentsPage(appointments,widget.resources)));

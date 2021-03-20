@@ -8,13 +8,12 @@ class AppointmentAddingPage extends StatefulWidget {
   String subject;
   DateTime startTime;
   DateTime endTime;
-  String notes;
   DateTime date;
+  String notes;
   bool isEdit= false;
   AppointmentAddingPage(this.displayName);
   AppointmentAddingPage.edit(this.displayName,this.subject,this.startTime,this.endTime,this.notes){
     isEdit=true;
-   
   }
   @override
   _AppointmentAddingPageState createState() => _AppointmentAddingPageState();
@@ -34,11 +33,10 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
   }
 @override
   void initState() {
-     
     if (widget.isEdit==true) {
       tfsubject.text= widget.subject;
-      widget.date= DateTime(widget.startTime.year,widget.startTime.month,widget.startTime.day);
-      tfDate.text =new DateFormat("dd.MM.yyyy").format(widget.startTime);
+      widget.date=widget.startTime;
+      tfDate.text =new DateFormat("dd.MM.yyyy").format(widget.date);
       tfStartTime.text = new DateFormat.Hm().format(widget.startTime);
       tfEndTime.text = new DateFormat.Hm().format(widget.endTime);
     }
@@ -114,6 +112,8 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                           if (selectedDate != null)
                             setState(() {
                               widget.date = selectedDate;
+                              widget.startTime=DateTime(widget.date.year,widget.date.month,widget.date.day,widget.startTime.hour,widget.startTime.minute);
+                              widget.endTime=DateTime(widget.date.year,widget.date.month,widget.date.day,widget.endTime.hour,widget.endTime.minute);
                               tfDate.text =
                                   new DateFormat("dd.MM.yyyy").format(selectedDate);
                             });
@@ -153,6 +153,7 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                                 widget.date.day,
                                 selectedStartTime.hour,
                                 selectedStartTime.minute);
+                            print(widget.startTime);
                             tfStartTime.text =
                                 new DateFormat.Hm().format(widget.startTime);
                           });
@@ -191,6 +192,7 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                           setState(() {
                             widget.endTime = DateTime(widget.date.year, widget.date.month, widget.date.day,
                                 selectedEndTime.hour, selectedEndTime.minute);
+                            print(widget.endTime);
                             tfEndTime.text = DateFormat.Hm().format(widget.endTime);
                           });
                         });

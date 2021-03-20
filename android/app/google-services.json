@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "22895184790",
+    "project_id": "iskur-randevu",
+    "storage_bucket": "iskur-randevu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22895184790:android:01335c51fb51f082a7abb7",
+        "android_client_info": {
+          "package_name": "com.example.iskur_randevu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22895184790-k0dstkvi0cbu7j1ejnj12r2srbptv259.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADh7S_lXkp_nGUovXYLzRCWrD60n_yPWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22895184790-k0dstkvi0cbu7j1ejnj12r2srbptv259.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
