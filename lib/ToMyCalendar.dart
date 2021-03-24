@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'AppointmentsPage.dart';
+import 'package:iskur_randevu/MyCalendar.dart';
 import 'DatabaseAccess.dart';
 
-class ToAppointmentsPage extends StatefulWidget {
+// ignore: must_be_immutable
+class ToMyCalendar extends StatefulWidget {
   String displayName;
-  ToAppointmentsPage(this.displayName);
+  ToMyCalendar(this.displayName);
 
   @override
-  _ToAppointmentsPageState createState() => _ToAppointmentsPageState();
+  _ToMyCalendarState createState() => _ToMyCalendarState();
 }
 
-class _ToAppointmentsPageState extends State<ToAppointmentsPage> {
+class _ToMyCalendarState extends State<ToMyCalendar> {
 
   void initState() {
     super.initState();
@@ -24,13 +25,19 @@ class _ToAppointmentsPageState extends State<ToAppointmentsPage> {
     DatabaseAccess databaseAccess = DatabaseAccess();
     appointments = await databaseAccess.getData(widget.displayName);
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AppointmentsPage(widget.displayName,appointments)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => MyCalendar(widget.displayName,appointments)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+
+          },
+        ),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

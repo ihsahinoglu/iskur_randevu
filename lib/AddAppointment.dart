@@ -1,25 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:iskur_randevu/ToAppointmentsPage.dart';
+import 'package:iskur_randevu/ToMyCalendar.dart';
 
-class AppointmentAddingPage extends StatefulWidget {
+// ignore: must_be_immutable
+class AddAppointment extends StatefulWidget {
   String displayName;
   String subject;
   DateTime startTime;
   DateTime endTime;
   DateTime date;
   String notes;
-  bool isEdit= false;
-  AppointmentAddingPage(this.displayName);
-  AppointmentAddingPage.edit(this.displayName,this.subject,this.startTime,this.endTime,this.notes){
-    isEdit=true;
+  bool isEdit = false;
+  AddAppointment(this.displayName);
+  AddAppointment.edit(this.displayName, this.subject, this.startTime,
+      this.endTime, this.notes) {
+    isEdit = true;
   }
   @override
-  _AppointmentAddingPageState createState() => _AppointmentAddingPageState();
+  _AddAppointmentState createState() => _AddAppointmentState();
 }
 
-class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
+class _AddAppointmentState extends State<AddAppointment> {
   final formKey = GlobalKey<FormState>();
   var tfsubject = TextEditingController();
   var tfDate = TextEditingController();
@@ -29,23 +31,25 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-        builder: (contex) => ToAppointmentsPage(widget.displayName)));
+            builder: (contex) => ToMyCalendar(widget.displayName)));
   }
-@override
+
+  @override
   void initState() {
-    if (widget.isEdit==true) {
-      tfsubject.text= widget.subject;
-      widget.date=widget.startTime;
-      tfDate.text =new DateFormat("dd.MM.yyyy").format(widget.date);
+    if (widget.isEdit == true) {
+      tfsubject.text = widget.subject;
+      widget.date = widget.startTime;
+      tfDate.text = new DateFormat("dd.MM.yyyy").format(widget.date);
       tfStartTime.text = new DateFormat.Hm().format(widget.startTime);
       tfEndTime.text = new DateFormat.Hm().format(widget.endTime);
     }
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    var ekranBoyutu = MediaQuery.of(context);
-    final yukseklik = ekranBoyutu.size.height;
+    //var ekranBoyutu = MediaQuery.of(context);
+    //final yukseklik = ekranBoyutu.size.height;
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +65,7 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
       ),
       body: WillPopScope(
         onWillPop: () {
-          goBack();
+          return goBack();
         },
         child: SingleChildScrollView(
           child: Padding(
@@ -102,7 +106,6 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                       ),
                       onTap: () async {
                         await showDatePicker(
-                          
                           context: context,
                           locale: const Locale("tr"),
                           initialDate: DateTime.now(),
@@ -112,10 +115,20 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                           if (selectedDate != null)
                             setState(() {
                               widget.date = selectedDate;
-                              widget.startTime=DateTime(widget.date.year,widget.date.month,widget.date.day,widget.startTime.hour,widget.startTime.minute);
-                              widget.endTime=DateTime(widget.date.year,widget.date.month,widget.date.day,widget.endTime.hour,widget.endTime.minute);
-                              tfDate.text =
-                                  new DateFormat("dd.MM.yyyy").format(selectedDate);
+                              widget.startTime = DateTime(
+                                  widget.date.year,
+                                  widget.date.month,
+                                  widget.date.day,
+                                  widget.startTime.hour,
+                                  widget.startTime.minute);
+                              widget.endTime = DateTime(
+                                  widget.date.year,
+                                  widget.date.month,
+                                  widget.date.day,
+                                  widget.endTime.hour,
+                                  widget.endTime.minute);
+                              tfDate.text = new DateFormat("dd.MM.yyyy")
+                                  .format(selectedDate);
                             });
                         });
                       },
@@ -153,7 +166,6 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                                 widget.date.day,
                                 selectedStartTime.hour,
                                 selectedStartTime.minute);
-                            print(widget.startTime);
                             tfStartTime.text =
                                 new DateFormat.Hm().format(widget.startTime);
                           });
@@ -186,14 +198,19 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                                 },
                                 initialTime: widget.startTime != null
                                     ? TimeOfDay(
-                                        hour: widget.startTime.hour + 1, minute: 00)
+                                        hour: widget.startTime.hour + 1,
+                                        minute: 00)
                                     : TimeOfDay(hour: 13, minute: 00))
                             .then((selectedEndTime) {
                           setState(() {
-                            widget.endTime = DateTime(widget.date.year, widget.date.month, widget.date.day,
-                                selectedEndTime.hour, selectedEndTime.minute);
-                            print(widget.endTime);
-                            tfEndTime.text = DateFormat.Hm().format(widget.endTime);
+                            widget.endTime = DateTime(
+                                widget.date.year,
+                                widget.date.month,
+                                widget.date.day,
+                                selectedEndTime.hour,
+                                selectedEndTime.minute);
+                            tfEndTime.text =
+                                DateFormat.Hm().format(widget.endTime);
                           });
                         });
                       },
@@ -207,11 +224,14 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                         ),
                         onPressed: () async {
                           if (formKey.currentState.validate()) {
-                            if (widget.isEdit){
-                              FirebaseFirestore firestore = FirebaseFirestore.instance;
-                              CollectionReference collectionReference = firestore.collection(
-                                  'randevular');
-                              await collectionReference.doc(widget.notes).delete();
+                            if (widget.isEdit) {
+                              FirebaseFirestore firestore =
+                                  FirebaseFirestore.instance;
+                              CollectionReference collectionReference =
+                                  firestore.collection('randevular');
+                              await collectionReference
+                                  .doc(widget.notes)
+                                  .delete();
                             }
                             var appointments = Map<String, dynamic>();
                             appointments["displayName"] = widget.displayName;
@@ -223,13 +243,13 @@ class _AppointmentAddingPageState extends State<AppointmentAddingPage> {
                             FirebaseFirestore firestore =
                                 FirebaseFirestore.instance;
                             CollectionReference collectionReference =
-                            firestore.collection('randevular');
+                                firestore.collection('randevular');
                             await collectionReference.add(appointments);
 
                             goBack();
                           }
                         },
-                        child: Text("Yeni Randevu Oluştur"),
+                        child: Text("Randevu Oluştur"),
                       ),
                     )
                   ],

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:iskur_randevu/AllAppointmentsPage.dart';
+import 'package:iskur_randevu/AllCalendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'DatabaseAccess.dart';
 
 
-class ToAllAppointmentsPage extends StatefulWidget {
+// ignore: must_be_immutable
+class ToAllCalendar extends StatefulWidget {
   List<CalendarResource> resources = <CalendarResource>[];
 
-  ToAllAppointmentsPage(this.resources);
+  ToAllCalendar(this.resources);
 
   @override
-  _ToAllAppointmentsPageState createState() => _ToAllAppointmentsPageState();
+  _ToAllCalendarState createState() => _ToAllCalendarState();
 }
 
-class _ToAllAppointmentsPageState extends State<ToAllAppointmentsPage> {
+class _ToAllCalendarState extends State<ToAllCalendar> {
 
   void initState() {
     super.initState();
@@ -24,13 +25,19 @@ class _ToAllAppointmentsPageState extends State<ToAllAppointmentsPage> {
     List<Appointment> appointments = <Appointment>[];
     DatabaseAccess databaseAccess = DatabaseAccess();
     appointments = await databaseAccess.getAllData();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AllAppointmentsPage(appointments,widget.resources)));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (contex) => AllCalendar(appointments,widget.resources)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+
+          },
+        ),
         title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

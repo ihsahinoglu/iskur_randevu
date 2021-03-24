@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iskur_randevu/ToAppointmentsPage.dart';
-import 'package:iskur_randevu/ToAllAppointmentsPage.dart';
+import 'package:iskur_randevu/ToMyCalendar.dart';
+import 'package:iskur_randevu/ToAllCalendar.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -66,11 +66,11 @@ class _EntrancePageState extends State<EntrancePage> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                   GestureDetector(
                    onTap: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              ToAllAppointmentsPage(EntrancePage.resources)));
+                              ToAllCalendar(EntrancePage.resources)));
                 },
                     child: Padding(
                     padding:  EdgeInsets.only(top: yukseklik*0.05,left: genislik*0.15, right: genislik*0.15),
@@ -109,10 +109,10 @@ class _EntrancePageState extends State<EntrancePage> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
+                                      Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => ToAppointmentsPage(
+                                              builder: (context) => ToMyCalendar(
                                                   snapshot
                                                       .data[index].displayName)));
                                     },
